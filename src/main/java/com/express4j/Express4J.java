@@ -60,7 +60,7 @@ public class Express4J {
 			String file_path = "/"+ cleanPath("\\"+ file.getPath()).replace(this.root, "").replace("\\", "/");
 			this.get(file_path.replace("//", "/"), new Request() {
 				@Override
-				public void handle(HttpRequest req, HttpResponse res) throws Exception {
+				public void handle(final HttpRequest req, final HttpResponse res) throws Exception {
 					res.sendFile(file.getPath());
 				}
 			});

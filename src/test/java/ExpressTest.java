@@ -6,6 +6,7 @@ import com.express4j.service.HttpResponse;
 public class ExpressTest {
 	public static void main(String[] args) throws Exception {
 		Express4J app = new Express4J("./www/");
+		app.addStatic("/assets", "/assets");
 		app.get("/", new Request() {
 			public void handle(HttpRequest req, HttpResponse res) throws Exception {
 				res.send("test");
