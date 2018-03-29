@@ -5,9 +5,7 @@ import com.express4j.service.HttpResponse;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -47,14 +45,38 @@ public class RequestHandler implements HttpHandler {
 	
 	public void sendErrorDocument(int status, HttpRequest req, HttpResponse res) {
 		try {
-			File file = this.app.error_documents.getOrDefault(status, new File(getClass().getResource("/default_error_pages/" + status + ".html").getFile()));
-			String body = new String(Files.readAllBytes(Paths.get(file.toURI())));
+			InputStream in;
+			File file = this.app.error_documents.getOrDefault(status, null);
+			if(file == null) in = getClass().getResourceAsStream("/default_error_pages/" + status + ".html");
+			else in = new FileInputStream(file);
+			
+			BufferedReader br = null;
+			StringBuilder sb = new StringBuilder();
+			String line;
+			try {
+				br = new BufferedReader(new InputStreamReader(in));
+				while((line = br.readLine()) != null)
+					sb.append(line);
+			} catch(IOException ex) {
+				ex.printStackTrace();
+			} finally {
+				if(br != null)
+					try {
+						br.close();
+					} catch(IOException ex) {
+						ex.printStackTrace();
+					}
+			}
+			
+			String body = sb.toString();
 				body = body.replaceAll("\\{REQ.METHOD\\}", req.getMethod().toString());
 				body = body.replaceAll("\\{REQ.PATH\\}", req.getPath());
 				body = body.replaceAll("\\{REQ.HOST\\}", req.getHostname());
 				body = body.replaceAll("\\{REQ.IP\\}", req.getIP());
 			res.send(body);
-		} catch(Exception e) {
+		} catch(FileNotFoundException e) {
+			e.printStackTrace();
+		} catch(IOException e) {
 			e.printStackTrace();
 		}
 	}
