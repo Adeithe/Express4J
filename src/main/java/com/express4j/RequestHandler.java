@@ -63,6 +63,7 @@ public class RequestHandler implements HttpHandler {
 				if(br != null)
 					try {
 						br.close();
+						in.close();
 					} catch(IOException ex) {
 						ex.printStackTrace();
 					}
