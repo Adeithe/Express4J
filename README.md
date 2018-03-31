@@ -6,7 +6,7 @@ Simplistic Web Framework written in Java 8
 All examples of how to get started with Express4J are available at [/src/test/java](https://github.com/Adeithe/Express4J/tree/master/src/test/java)
 
 ## Documentation
-Documentation is not available at this time.
+Documentation for TwitchTMI is available at [adeithe.github.io/Express4J](http://adeithe.github.io/Express4J)
 
 ## Using Express4J in your project
 `@VERSION@` = The release version of Express4J to use or `-SNAPSHOT` to use the dev version

@@ -25,6 +25,11 @@ public class HttpRequest {
 		this.params = new HashMap<String, String>();
 	}
 	
+	/**
+	 * Returns a HashMap of all cookies.
+	 *
+	 * @return
+	 */
 	public HashMap<String, Cookie> cookies() {
 		HashMap<String, Cookie> cookies = new HashMap<String, Cookie>();
 		for(String header : this.get("cookie")) {

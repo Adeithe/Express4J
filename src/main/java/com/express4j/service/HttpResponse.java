@@ -112,43 +112,266 @@ public class HttpResponse {
 		return this;
 	}
 	
+	/**
+	 * Creates an empty cookie.
+	 *
+	 * @param name
+	 * @return
+	 */
 	public Cookie cookie(String name) { return this.req.cookies().getOrDefault(name, new Cookie(null, null)); }
 	
+	/**
+	 * Creates a cookie that doesn't expire.
+	 *
+	 * @param name
+	 * @param value
+	 * @return
+	 */
 	public HttpResponse cookie(String name, String value) { return this.append("Set-Cookie", name+"="+value); }
 	
+	/**
+	 * Creates a cookie that expires after a period of time.
+	 *
+	 * @param name
+	 * @param value
+	 * @param maxAge
+	 * @return
+	 */
 	public HttpResponse cookie(String name, String value, int maxAge) { return this.cookie(name, value, maxAge, null, null, false, false, false); }
+	
+	/**
+	 * Creates a cookie that is only available on a specific domain.
+	 *
+	 * @param name
+	 * @param value
+	 * @param maxAge
+	 * @param domain
+	 * @return
+	 */
 	public HttpResponse cookie(String name, String value, int maxAge, String domain) { return this.cookie(name, value, maxAge, domain, null, false, false, false); }
+	
+	/**
+	 * Creates a cookie that is only available on a specific path
+	 *
+	 * @param name
+	 * @param value
+	 * @param maxAge
+	 * @param domain
+	 * @param path
+	 * @return
+	 */
 	public HttpResponse cookie(String name, String value, int maxAge, String domain, String path) { return this.cookie(name, value, maxAge, domain, path, false, false, false); }
+	
+	/**
+	 * Creates a cookie that is only available via SameSite
+	 *
+	 * @param name
+	 * @param value
+	 * @param maxAge
+	 * @param domain
+	 * @param path
+	 * @param sameSite
+	 * @return
+	 */
 	public HttpResponse cookie(String name, String value, int maxAge, String domain, String path, boolean sameSite) { return this.cookie(name, value, maxAge, domain, path, sameSite, false, false); }
+	
+	/**
+	 * Creates a cookie that is only available via HttpOnly
+	 *
+	 * @param name
+	 * @param value
+	 * @param maxAge
+	 * @param domain
+	 * @param path
+	 * @param sameSite
+	 * @param httpOnly
+	 * @return
+	 */
 	public HttpResponse cookie(String name, String value, int maxAge, String domain, String path, boolean sameSite, boolean httpOnly) { return this.cookie(name, value, maxAge, domain, path, sameSite, httpOnly, false); }
+	
+	/**
+	 * Creates a cookie that is only available via Secure
+	 *
+	 * @param name
+	 * @param value
+	 * @param maxAge
+	 * @param domain
+	 * @param path
+	 * @param sameSite
+	 * @param httpOnly
+	 * @param secure
+	 * @return
+	 */
 	public HttpResponse cookie(String name, String value, int maxAge, String domain, String path, boolean sameSite, boolean httpOnly, boolean secure) { return this.cookie(name, value, Long.valueOf(maxAge), domain, path, sameSite, httpOnly, secure); }
 	
+	/**
+	 * Creates a cookie that expires after a period of time.
+	 *
+	 * @param name
+	 * @param value
+	 * @param maxAge
+	 * @return
+	 */
 	public HttpResponse cookie(String name, String value, long maxAge) { return this.cookie(name, value, maxAge, null, null, false, false, false); }
+	
+	/**
+	 * Creates a cookie that is only available on a specific domain.
+	 *
+	 * @param name
+	 * @param value
+	 * @param maxAge
+	 * @param domain
+	 * @return
+	 */
 	public HttpResponse cookie(String name, String value, long maxAge, String domain) { return this.cookie(name, value, maxAge, domain, null, false, false, false); }
+	
+	/**
+	 * Creates a cookie that is only available on a specific path
+	 *
+	 * @param name
+	 * @param value
+	 * @param maxAge
+	 * @param domain
+	 * @param path
+	 * @return
+	 */
 	public HttpResponse cookie(String name, String value, long maxAge, String domain, String path) { return this.cookie(name, value, maxAge, domain, path, false, false, false); }
+	
+	/**
+	 * Creates a cookie that is only available via SameSite
+	 *
+	 * @param name
+	 * @param value
+	 * @param maxAge
+	 * @param domain
+	 * @param path
+	 * @param sameSite
+	 * @return
+	 */
 	public HttpResponse cookie(String name, String value, long maxAge, String domain, String path, boolean sameSite) { return this.cookie(name, value, maxAge, domain, path, sameSite, false, false); }
+	
+	/**
+	 * Creates a cookie that is only available via HttpOnly
+	 *
+	 * @param name
+	 * @param value
+	 * @param maxAge
+	 * @param domain
+	 * @param path
+	 * @param sameSite
+	 * @param httpOnly
+	 * @return
+	 */
 	public HttpResponse cookie(String name, String value, long maxAge, String domain, String path, boolean sameSite, boolean httpOnly) { return this.cookie(name, value, maxAge, domain, path, sameSite, httpOnly, false); }
+	
+	/**
+	 * Creates a cookie that is only available via Secure
+	 *
+	 * @param name
+	 * @param value
+	 * @param maxAge
+	 * @param domain
+	 * @param path
+	 * @param sameSite
+	 * @param httpOnly
+	 * @param secure
+	 * @return
+	 */
 	public HttpResponse cookie(String name, String value, long maxAge, String domain, String path, boolean sameSite, boolean httpOnly, boolean secure) {
 		Date expires = new Date();
 		expires.setTime(expires.getTime() + maxAge);
 		return this.cookie(name, value, expires, domain, path, httpOnly, secure);
 	}
 	
+	/**
+	 * Creates a cookie that expires after a period of time.
+	 *
+	 * @param name
+	 * @param value
+	 * @param expires
+	 * @return
+	 */
 	public HttpResponse cookie(String name, String value, Date expires) { return this.cookie(name, value, expires, null, null, false, false, false); }
+	
+	/**
+	 * Creates a cookie that is only available on a specific domain.
+	 *
+	 * @param name
+	 * @param value
+	 * @param expires
+	 * @param domain
+	 * @return
+	 */
 	public HttpResponse cookie(String name, String value, Date expires, String domain) { return this.cookie(name, value, expires, domain, null, false, false, false); }
+	
+	/**
+	 * Creates a cookie that is only available on a specific path
+	 *
+	 * @param name
+	 * @param value
+	 * @param expires
+	 * @param domain
+	 * @param path
+	 * @return
+	 */
 	public HttpResponse cookie(String name, String value, Date expires, String domain, String path) { return this.cookie(name, value, expires, domain, path, false, false, false); }
+	
+	/**
+	 * Creates a cookie that is only available via SameSite
+	 *
+	 * @param name
+	 * @param value
+	 * @param expires
+	 * @param domain
+	 * @param path
+	 * @param sameSite
+	 * @return
+	 */
 	public HttpResponse cookie(String name, String value, Date expires, String domain, String path, boolean sameSite) { return this.cookie(name, value, expires, domain, path, sameSite, false, false); }
+	
+	/**
+	 * Creates a cookie that is only available via HttpOnly
+	 *
+	 * @param name
+	 * @param value
+	 * @param expires
+	 * @param domain
+	 * @param path
+	 * @param sameSite
+	 * @param httpOnly
+	 * @return
+	 */
 	public HttpResponse cookie(String name, String value, Date expires, String domain, String path, boolean sameSite, boolean httpOnly) { return this.cookie(name, value, expires, domain, path, sameSite, httpOnly, false); }
+	
+	/**
+	 * Creates a cookie that is only available via Secure
+	 *
+	 * @param name
+	 * @param value
+	 * @param expires
+	 * @param domain
+	 * @param path
+	 * @param sameSite
+	 * @param httpOnly
+	 * @param secure
+	 * @return
+	 */
 	public HttpResponse cookie(String name, String value, Date expires, String domain, String path, boolean sameSite, boolean httpOnly, boolean secure) {
 		String tags = "";
 		if(domain != null && !domain.isEmpty()) tags += " Domain="+ domain +";";
-		if(path !=null && !path.isEmpty()) tags += " Path="+ path +";"; else tags += "Path=/;";
+		if(path != null && !path.isEmpty()) tags += " Path="+ path +";"; else tags += "Path=/;";
 		if(sameSite) tags += " SameSite;";
 		if(httpOnly) tags += " HttpOnly;";
 		if(secure) tags += " Secure;";
 		return this.append("Set-Cookie", name+"="+value+"; Expires="+ DateUtils.toGMTString(expires)+"; "+ tags);
 	}
 	
+	/**
+	 * Removes a cookie based on its name.
+	 *
+	 * @param name
+	 * @return
+	 */
 	public HttpResponse clearCookie(String name) {
 		return this.cookie(name, "", new Date(1));
 	}
@@ -245,6 +468,12 @@ public class HttpResponse {
 		this.closed = true;
 	}
 	
+	/**
+	 * Sends a JSON Object.
+	 *
+	 * @param json
+	 * @throws IOException
+	 */
 	public void sendJson(Json json) throws IOException {
 		this.type(ContentType.JSON).send(json.toString());
 	}
