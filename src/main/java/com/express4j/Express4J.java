@@ -30,7 +30,10 @@ public class Express4J {
 		if(!root.endsWith("/") && !root.endsWith("\\"))
 			root += "/";
 		root = cleanPath(root);
-		if(!new File(root).isDirectory())
+		File directory = new File(root);
+		if(!directory.exists())
+			directory.mkdirs();
+		if(!directory.isDirectory())
 			throw new DirectoryRequiredException("Provided root path must be a directory!");
 		this.root = root;
 		
@@ -52,6 +55,8 @@ public class Express4J {
 		if(!dir.startsWith(this.root))
 			dir = this.root + dir;
 		File directory = new File(cleanPath(dir));
+		if(!directory.exists())
+			directory.mkdirs();
 		if(!directory.isDirectory())
 			throw new DirectoryRequiredException();
 		
