@@ -135,7 +135,7 @@ public class HttpRequest {
 	 * @return
 	 */
 	public String getParam(String key) {
-		return this.getParams().get(key);
+		return this.getParams().getOrDefault(key, null);
 	}
 	
 	/**

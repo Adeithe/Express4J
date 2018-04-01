@@ -159,6 +159,18 @@ public class Express4J {
 	}
 	
 	/**
+	 * Allows you to assign an ErrorDocument to a status code (Must be inside the <code>Express.root</code> directory)
+	 *
+	 * @param status
+	 * @param file
+	 */
+	public void setErrorDocument(int status, String file) {
+		if(this.error_documents.containsKey(status))
+			this.error_documents.remove(status);
+		this.error_documents.put(status, new File(this.root + File.separator + file));
+	}
+	
+	/**
 	 * Starts the Express4J server on port 80
 	 *
 	 * @throws IOException

@@ -1,5 +1,7 @@
 package com.express4j;
 
+import com.express4j.exception.FileRequiredException;
+import com.express4j.exception.TraversalAttackPreventionException;
 import com.express4j.service.HttpRequest;
 import com.express4j.service.HttpResponse;
 import com.sun.net.httpserver.HttpExchange;
@@ -24,16 +26,21 @@ public class RequestHandler implements HttpHandler {
 		boolean found = false;
 		for(String path : this.app.listeners.get(req.getMethod()).keySet()) {
 			String parsed_path = Express4J.parsePath(path);
-			if(req.getPath().equals(parsed_path) || req.getPath().matches(path)) {
-				if(parsed_path != path)
-					req.params = toParams(path, req.getPath());
+			if(req.getPath().equals(parsed_path) || req.getPath().matches(parsed_path)) {
 				try {
+					if(!path.equals(parsed_path))
+						req.params = toParams(path, req.getPath());
 					this.app.listeners.get(req.getMethod()).get(path).handle(req, res);
 					found = true;
-				} catch(FileNotFoundException e) {
-				
+				} catch(FileNotFoundException | FileRequiredException e) {
+					this.sendErrorDocument(404, req, res);
+					e.printStackTrace();
+				} catch(TraversalAttackPreventionException e) {
+					this.sendErrorDocument(403, req, res);
+					e.printStackTrace();
 				} catch(Exception e) {
-				
+					this.sendErrorDocument(500, req, res);
+					e.printStackTrace();
 				}
 				if(res.isClosed())
 					return;
