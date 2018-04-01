@@ -44,6 +44,17 @@ public class Express4J {
 	}
 	
 	/**
+	 * Makes all files in the provided directory available via the web server
+	 *
+	 * @param path
+	 * @return
+	 * @throws DirectoryRequiredException
+	 */
+	public Express4J addStatic(String path) throws DirectoryRequiredException {
+		return this.addStatic(path, path);
+	}
+	
+	/**
 	 * Makes all files in a provided directory available via the web server
 	 *
 	 * @param path
