@@ -4,6 +4,7 @@ import com.express4j.Express4J;
 import com.express4j.exception.FileRequiredException;
 import com.express4j.exception.TraversalAttackPreventionException;
 import com.express4j.json.Json;
+import com.express4j.service.obj.Charset;
 import com.express4j.service.obj.ContentType;
 import com.express4j.service.obj.Cookie;
 import com.express4j.utils.DateUtils;
@@ -48,7 +49,21 @@ public class HttpResponse {
 	 * @return
 	 */
 	public HttpResponse type(ContentType type) {
-		this.set("Content-Type", type.toString());
+		return this.type(type, Charset.NONE);
+	}
+	
+	/**
+	 * Sets the Content-Type HTTP header to the provided MIME type and charset.
+	 *
+	 * @param type
+	 * @param charset
+	 * @return
+	 */
+	public HttpResponse type(ContentType type, Charset charset) {
+		String content_type = type.toString();
+		if(charset.toString() != null)
+			content_type += "; charset="+ charset.toString();
+		this.set("Content-Type", content_type);
 		return this;
 	}
 	
