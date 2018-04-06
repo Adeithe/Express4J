@@ -21,6 +21,7 @@ public class HttpResponse {
 	private HttpRequest req;
 	
 	private int status;
+	private Charset charset;
 	private boolean closed = false;
 	
 	public HttpResponse(Express4J app, HttpExchange exchange, HttpRequest req) {
@@ -29,6 +30,7 @@ public class HttpResponse {
 		this.req = req;
 		
 		this.status = 200;
+		this.charset = Charset.UTF_8;
 	}
 	
 	/**
@@ -43,13 +45,24 @@ public class HttpResponse {
 	}
 	
 	/**
+	 * Sets the charset for the response.
+	 *
+	 * @param charset
+	 * @return
+	 */
+	public HttpResponse charset(Charset charset) {
+		this.charset = charset;
+		return this;
+	}
+	
+	/**
 	 * Sets the Content-Type HTTP header to the MIME type provided.
 	 *
 	 * @param type
 	 * @return
 	 */
 	public HttpResponse type(ContentType type) {
-		return this.type(type, Charset.NONE);
+		return this.type(type, this.charset);
 	}
 	
 	/**
@@ -61,8 +74,10 @@ public class HttpResponse {
 	 */
 	public HttpResponse type(ContentType type, Charset charset) {
 		String content_type = type.toString();
-		if(charset.toString() != null)
-			content_type += "; charset="+ charset.toString();
+		if(charset.toString() != null) {
+			this.charset = charset;
+			content_type += "; charset=" + charset.toString();
+		}
 		this.set("Content-Type", content_type);
 		return this;
 	}
@@ -490,7 +505,7 @@ public class HttpResponse {
 	 * @throws IOException
 	 */
 	public void sendJson(Json json) throws IOException {
-		this.type(ContentType.JSON).send(json.toString());
+		this.type(ContentType.JSON, this.charset).send(json.toString());
 	}
 	
 	/**
