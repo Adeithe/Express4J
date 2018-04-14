@@ -2,9 +2,10 @@ package com.express4j.service.obj;
 
 import lombok.Getter;
 
+@Getter
 public class Cookie {
-	@Getter private String name;
-	@Getter private String value;
+	private String name;
+	private String value;
 	
 	public Cookie(String name, String value) {
 		this.name = name;

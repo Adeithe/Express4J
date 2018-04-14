@@ -5,6 +5,8 @@ import com.express4j.exception.DirectoryRequiredException;
 import com.express4j.service.HttpRequest;
 import com.express4j.service.HttpResponse;
 import com.express4j.service.obj.Method;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpServer;
 import lombok.Getter;
 
@@ -16,6 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Express4J {
+	public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+	
 	private InetSocketAddress address;
 	private HttpServer server;
 	private RequestHandler handler;
