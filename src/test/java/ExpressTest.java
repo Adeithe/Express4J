@@ -9,12 +9,17 @@ public class ExpressTest {
 		app.addStatic("/assets");
 		app.get("/", new Request() {
 			public void handle(HttpRequest req, HttpResponse res) throws Exception {
-				res.send("test");
+				res.send("home");
 			}
 		});
 		app.get("/:test", new Request() {
 			public void handle(HttpRequest req, HttpResponse res) throws Exception {
-				res.send(req.getParams().getOrDefault("test", "Something went wrong!"));
+				res.send(req.getParam("test"));
+			}
+		});
+		app.get("/:test/:smth", new Request() {
+			public void handle(HttpRequest req, HttpResponse res) throws Exception {
+				res.send(req.getParam("test") +" - "+ req.getParam("smth"));
 			}
 		});
 		app.listen(8080);

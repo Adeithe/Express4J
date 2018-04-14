@@ -89,28 +89,17 @@ public class RequestHandler implements HttpHandler {
 		}
 	}
 	
-	private HashMap<String, String> toParams(String raw, String path) { return this.toParams(raw, path, new HashMap<String, String>(), raw.indexOf(":")); }
-	private HashMap<String, String> toParams(String raw, String path, HashMap<String, String> map, int start) {
-		if(raw.contains(":")) {
-			int end = raw.substring(start).indexOf("/");
-			if(end < 0)
-				end = raw.length();
-			
-			String key = raw.substring(start, end);
-			String value = this.getParam(path, start);
-			
-			raw = raw.replace(key, value);
-			path = path.replace(value, key);
-			
-			map.put(key.replaceFirst(":", ""), value);
-			return this.toParams(raw, path, map, raw.indexOf(":"));
+	private HashMap<String, String> toParams(String raw, String path) { return this.toParams(raw, path, new HashMap<String, String>()); }
+	private HashMap<String, String> toParams(String raw, String path, HashMap<String, String> map) {
+		String[] raw_parts = raw.split("/");
+		String[] path_parts = path.split("/");
+		for(int i = 0; i < raw_parts.length; i++) {
+			String raw_part = raw_parts[i];
+			String path_part = path_parts[i];
+			if(!raw_part.isEmpty())
+				if(raw_part.startsWith(":"))
+					map.put(raw_part.replaceFirst(":", ""), path_part);
 		}
 		return map;
-	}
-	private String getParam(String path, int start) {
-		int end = path.substring(start).indexOf("/");
-		if(end < 0)
-			end = path.length();
-		return path.substring(start, end);
 	}
 }
