@@ -27,6 +27,11 @@ public class ExpressTest {
 				res.send(req.getParam("else"));
 			}
 		});
+		app.get("/test/smth/:else/:test", new Request() {
+			public void handle(HttpRequest req, HttpResponse res) throws Exception {
+				res.send(req.getParam("else") +" - "+ req.getParam("test"));
+			}
+		});
 		app.listen(8080);
 		System.out.println("Application has launched!");
 	}

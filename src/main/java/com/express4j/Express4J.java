@@ -236,12 +236,16 @@ public class Express4J {
 	
 	public static String parsePath(String path) {
 		if(path.contains(":")) {
-			int start = path.indexOf(":");
-			int end = path.substring(start).indexOf("/");
-			if(end < 0)
-				end = path.length();
-			path = path.replace(path.substring(start, end), "[A-Za-z0-9-_.+\\-~%]+");
-			return Express4J.parsePath(path);
+			String[] parts = path.split("/");
+			for(int i = 0; i < parts.length; i++) {
+				String part = parts[i];
+				if(part.length() > 0) {
+					if(part.startsWith(":"))
+						part = "[A-Za-z0-9-_.+\\-~%]+";
+				}
+				parts[i] = part;
+			}
+			return String.join("/", parts);
 		}
 		return path;
 	}
