@@ -8,9 +8,9 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class RequestHandler implements HttpHandler {
 	private Express4J app;
@@ -19,12 +19,13 @@ public class RequestHandler implements HttpHandler {
 		this.app = app;
 	}
 	
-	public void handle(HttpExchange exchange) throws IOException {
+	public void handle(HttpExchange exchange) {
 		HttpRequest req = new HttpRequest(this.app, exchange);
 		HttpResponse res = new HttpResponse(this.app, exchange, req);
 		
 		boolean found = false;
-		for(String path : this.app.listeners.get(req.getMethod()).keySet()) {
+		Set<String> keys = this.app.listeners.get(req.getMethod()).keySet().stream().filter(s -> (s.chars().filter(num -> num == '/').count() == req.getPath().chars().filter(num -> num == '/').count())).collect(Collectors.toSet());
+		for(String path : keys) {
 			String parsed_path = Express4J.parsePath(path);
 			if(req.getPath().equals(parsed_path) || req.getPath().matches(parsed_path)) {
 				try {
@@ -43,7 +44,7 @@ public class RequestHandler implements HttpHandler {
 					e.printStackTrace();
 				}
 				if(res.isClosed())
-					return;
+					break;
 			}
 		}
 		if(!found)
