@@ -240,7 +240,7 @@ public class Express4J {
 			int end = path.substring(start).indexOf("/");
 			if(end < 0)
 				end = path.length();
-			path = path.replace(path.substring(start, end), "[A-Za-z0-9-_.+]+");
+			path = path.replace(path.substring(start, end), "[A-Za-z0-9-_.+\\-~%]+");
 			return Express4J.parsePath(path);
 		}
 		return path;
